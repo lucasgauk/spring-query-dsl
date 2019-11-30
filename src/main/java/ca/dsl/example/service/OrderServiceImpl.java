@@ -7,6 +7,7 @@ import ca.dsl.example.domain.order.OrderRepository;
 import ca.dsl.example.domain.order.Payment;
 import com.querydsl.core.types.Predicate;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -35,8 +36,13 @@ public class OrderServiceImpl implements OrderService {
                                        .reduce(BigDecimal::add)
                                        .orElse(BigDecimal.ZERO);
         if (paymentTotal.compareTo(order.getOrderTotal()) >= 0) {
-            order.setOrderStatus(OrderStatus.COMPLETED.toString());
+            this.closeOrder(order);
         }
         return this.save(order);
+    }
+
+    private void closeOrder(Order order) {
+        order.setOrderStatus(OrderStatus.COMPLETED.toString());
+        order.setOrderClosedAt(LocalDateTime.now());
     }
 }

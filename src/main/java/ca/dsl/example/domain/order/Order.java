@@ -2,6 +2,7 @@ package ca.dsl.example.domain.order;
 
 import ca.dsl.example.domain.internal.BaseEntity;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ public class Order extends BaseEntity {
   private BigDecimal orderTotal;
   private String orderStatus;
   private List<Payment> payments;
+  private LocalDateTime orderClosedAt;
 
   public enum OrderStatus {
     IN_PROGRESS, COMPLETED
@@ -28,7 +30,8 @@ public class Order extends BaseEntity {
     return new Order(request.getCustomerName(),
                      request.getOrderTotal(),
                      OrderStatus.IN_PROGRESS.toString(),
-                     new ArrayList<>());
+                     new ArrayList<>(),
+                     null);
   }
 
 }
