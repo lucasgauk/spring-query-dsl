@@ -49,9 +49,7 @@ public class BasicPredicateBuilder<T> {
       return predicate.getPredicate(this.tClass);
     }).filter(Objects::nonNull).collect(Collectors.toList());
 
-    BooleanExpression expression = predicates.get(0);
-
-    predicates.remove(0);
+    BooleanExpression expression = predicates.remove(0);
 
     for (BooleanExpression item : predicates) {
       expression = expression.and(item);

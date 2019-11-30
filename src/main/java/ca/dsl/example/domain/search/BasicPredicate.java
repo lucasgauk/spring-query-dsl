@@ -27,21 +27,21 @@ class BasicPredicate<T> {
         case ":":
           return datePath.eq(LocalDate.parse(criteria.getValue()));
         case ">":
-          return datePath.goe(LocalDate.parse(criteria.getValue()));
+          return datePath.gt(LocalDate.parse(criteria.getValue()));
         case "<":
-          return datePath.loe(LocalDate.parse(criteria.getValue()));
+          return datePath.lt(LocalDate.parse(criteria.getValue()));
       }
     }
 
     if (this.isNumber(criteria.getValue())) {
-      NumberPath<BigDecimal> datePath = entityPath.getNumber(criteria.getKey(), BigDecimal.class);
+      NumberPath<BigDecimal> numPath = entityPath.getNumber(criteria.getKey(), BigDecimal.class);
       switch (criteria.getOperation()) {
         case ":":
-          return datePath.eq(new BigDecimal(criteria.getValue()));
+          return numPath.eq(new BigDecimal(criteria.getValue()));
         case ">":
-          return datePath.goe(new BigDecimal(criteria.getValue()));
+          return numPath.gt(new BigDecimal(criteria.getValue()));
         case "<":
-          return datePath.loe(new BigDecimal(criteria.getValue()));
+          return numPath.lt(new BigDecimal(criteria.getValue()));
       }
     }
 

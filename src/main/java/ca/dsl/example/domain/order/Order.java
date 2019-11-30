@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.TypeAlias;
 
@@ -14,12 +15,13 @@ import org.springframework.data.annotation.TypeAlias;
 @Setter
 @TypeAlias("order")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Order extends BaseEntity {
 
   private String customerName;
   private BigDecimal orderTotal;
   private String orderStatus;
-  private List<Payment> payments;
+  private List<Payment> payments = new ArrayList<>();
   private LocalDateTime orderClosedAt;
 
   public enum OrderStatus {
