@@ -1,6 +1,7 @@
 package ca.dsl.example.domain.order;
 
 import ca.dsl.example.domain.internal.BaseEntity;
+import com.querydsl.core.annotations.QueryEntity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,9 +11,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
+@QueryEntity
+@Document
 @TypeAlias("order")
 @AllArgsConstructor
 @NoArgsConstructor
