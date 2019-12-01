@@ -5,8 +5,11 @@ import ca.dsl.example.domain.order.Order.OrderStatus;
 import ca.dsl.example.domain.order.OrderNotFoundException;
 import ca.dsl.example.domain.order.OrderRepository;
 import ca.dsl.example.domain.order.Payment;
+import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,12 +21,16 @@ public class OrderServiceImpl implements OrderService {
         this.repository = repository;
     }
 
-    public Iterable<Order> search(Predicate p) {
-        return this.repository.findAll(p);
+    public List<Order> search(Predicate p) {
+        return Lists.newArrayList(this.repository.findAll(p));
     }
 
     public Order save(Order order) {
         return this.repository.save(order);
+    }
+
+    public void saveAll(List<Order> orders) {
+        this.repository.saveAll(orders);
     }
 
     public Order addPayment(String orderId, Payment payment) {
@@ -35,8 +42,13 @@ public class OrderServiceImpl implements OrderService {
                                        .reduce(BigDecimal::add)
                                        .orElse(BigDecimal.ZERO);
         if (paymentTotal.compareTo(order.getOrderTotal()) >= 0) {
-            order.setOrderStatus(OrderStatus.COMPLETED.toString());
+            this.closeOrder(order);
         }
         return this.save(order);
+    }
+
+    private void closeOrder(Order order) {
+        order.setOrderStatus(OrderStatus.COMPLETED.toString());
+        order.setOrderClosedAt(LocalDateTime.now());
     }
 }

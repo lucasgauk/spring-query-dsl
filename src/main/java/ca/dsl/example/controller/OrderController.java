@@ -7,10 +7,7 @@ import ca.dsl.example.domain.order.PaymentRequest;
 import ca.dsl.example.domain.search.BasicPredicateBuilder;
 import ca.dsl.example.service.OrderService;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import java.util.ArrayList;
 import java.util.List;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,10 +37,7 @@ public class OrderController {
     builder.from(search);
     BooleanExpression exp = builder.build();
 
-    List<Order> orders = new ArrayList<>();
-    this.orderService.search(exp).forEach(orders::add);
-
-    return orders;
+    return this.orderService.search(exp);
   }
 
   @PostMapping

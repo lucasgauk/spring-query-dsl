@@ -18,7 +18,7 @@ public class BasicPredicateBuilder<T> {
     this.tClass = tClass;
   }
 
-  public BasicPredicateBuilder from(String search) throws IllegalArgumentException {
+  public void from(String search) throws IllegalArgumentException {
     if (search != null) {
       Pattern pattern = Pattern.compile("([\\w.]+?)([:<>])([\\w.\\- ]+?),");
       Matcher matcher = pattern.matcher(search + ",");
@@ -33,12 +33,10 @@ public class BasicPredicateBuilder<T> {
         throw new IllegalArgumentException("Invalid query: " + search);
       }
     }
-    return this;
   }
 
-  public BasicPredicateBuilder with(String key, String operation, String value) {
+  public void with(String key, String operation, String value) {
     this.criteria.add(new SearchCriteria(key, operation, value));
-    return this;
   }
 
   public BooleanExpression build() {
@@ -51,9 +49,7 @@ public class BasicPredicateBuilder<T> {
       return predicate.getPredicate(this.tClass);
     }).filter(Objects::nonNull).collect(Collectors.toList());
 
-    BooleanExpression expression = predicates.get(0);
-
-    predicates.remove(0);
+    BooleanExpression expression = predicates.remove(0);
 
     for (BooleanExpression item : predicates) {
       expression = expression.and(item);
