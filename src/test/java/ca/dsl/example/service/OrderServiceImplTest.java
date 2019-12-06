@@ -42,13 +42,13 @@ class OrderServiceImplTest {
         String query1 = "fasggq:33"; // Valid format, nonexistent property, should return empty list
         String query2 = "6&3s>,ga3"; // Invalid format, should throw exception
 
-        BasicPredicateBuilder<Order> builder1 = new BasicPredicateBuilder<>(Order.class);
+        BasicPredicateBuilder<Order> builder1 = new BasicPredicateBuilder<>(Order.class, "order");
         builder1.from(query1);
         List<Order> query1Orders = Lists.newArrayList(this.orderService.search(builder1.build()));
 
         assertThat(query1Orders.size()).isEqualTo(0);
 
-        BasicPredicateBuilder<Order> builder2 = new BasicPredicateBuilder<>(Order.class);
+        BasicPredicateBuilder<Order> builder2 = new BasicPredicateBuilder<>(Order.class, "order");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> builder2.from(query2)); // Should throw exception
     }
@@ -73,21 +73,21 @@ class OrderServiceImplTest {
         String query2 = "orderStatus:COMPLETED,createdAt>" + LocalDate.now().minusDays(6).toString();
         String query3 = "orderStatus:COMPLETED,createdAt<" + LocalDate.now().minusDays(1).toString();
 
-        BasicPredicateBuilder<Order> builder1 = new BasicPredicateBuilder<>(Order.class);
+        BasicPredicateBuilder<Order> builder1 = new BasicPredicateBuilder<>(Order.class, "order");
         builder1.from(query1);
         List<Order> query1Orders = this.orderService.search(builder1.build());
 
         assertThat(query1Orders.size()).isEqualTo(1);
         assertThat(query1Orders.get(0).getId()).isEqualTo(o2.getId());
 
-        BasicPredicateBuilder<Order> builder2 = new BasicPredicateBuilder<>(Order.class);
+        BasicPredicateBuilder<Order> builder2 = new BasicPredicateBuilder<>(Order.class, "order");
         builder2.from(query2);
         List<Order> query2Orders = this.orderService.search(builder2.build());
 
         assertThat(query2Orders.size()).isEqualTo(1);
         assertThat(query2Orders.get(0).getId()).isEqualTo(o3.getId());
 
-        BasicPredicateBuilder<Order> builder3 = new BasicPredicateBuilder<>(Order.class);
+        BasicPredicateBuilder<Order> builder3 = new BasicPredicateBuilder<>(Order.class, "order");
         builder3.from(query3);
         List<Order> query3Orders = this.orderService.search(builder3.build());
 
@@ -119,21 +119,21 @@ class OrderServiceImplTest {
         String query2 = "payments.amount:0";
         String query3 = "payments.amount<5";
 
-        BasicPredicateBuilder<Order> builder1 = new BasicPredicateBuilder<>(Order.class);
+        BasicPredicateBuilder<Order> builder1 = new BasicPredicateBuilder<>(Order.class, "order");
         builder1.from(query1);
         List<Order> query1Orders = this.orderService.search(builder1.build());
 
         assertThat(query1Orders.size()).isEqualTo(1);
         assertThat(query1Orders.get(0).getId()).isEqualTo(o3.getId());
 
-        BasicPredicateBuilder<Order> builder2 = new BasicPredicateBuilder<>(Order.class);
+        BasicPredicateBuilder<Order> builder2 = new BasicPredicateBuilder<>(Order.class, "order");
         builder2.from(query2);
         List<Order> query2Orders = this.orderService.search(builder2.build());
 
         assertThat(query2Orders.size()).isEqualTo(1);
         assertThat(query2Orders.get(0).getId()).isEqualTo(o1.getId());
 
-        BasicPredicateBuilder<Order> builder3 = new BasicPredicateBuilder<>(Order.class);
+        BasicPredicateBuilder<Order> builder3 = new BasicPredicateBuilder<>(Order.class, "order");
         builder3.from(query3);
         List<Order> query3Orders = this.orderService.search(builder3.build());
 
