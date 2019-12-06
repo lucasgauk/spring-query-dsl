@@ -12,10 +12,12 @@ public class BasicPredicateBuilder<T> {
 
   private List<SearchCriteria> criteria;
   private Class<T> tClass;
+  private String collectionName;
 
-  public BasicPredicateBuilder(Class<T> tClass) {
+  public BasicPredicateBuilder(Class<T> tClass, String collectionName) {
     criteria = new ArrayList<>();
     this.tClass = tClass;
+    this.collectionName = collectionName;
   }
 
   public void from(String search) throws IllegalArgumentException {
@@ -46,7 +48,7 @@ public class BasicPredicateBuilder<T> {
 
     List<BooleanExpression> predicates = criteria.stream().map(param -> {
       BasicPredicate<T> predicate = new BasicPredicate<>(param);
-      return predicate.getPredicate(this.tClass);
+      return predicate.getPredicate(this.tClass, this.collectionName);
     }).filter(Objects::nonNull).collect(Collectors.toList());
 
     BooleanExpression expression = predicates.remove(0);

@@ -17,8 +17,8 @@ class BasicPredicate<T> {
     this.criteria = criteria;
   }
 
-  BooleanExpression getPredicate(Class<T> tClass) {
-    PathBuilder<T> entityPath = new PathBuilder<>(tClass, "order");
+  BooleanExpression getPredicate(Class<T> tClass, String collectionName) {
+    PathBuilder<T> entityPath = new PathBuilder<>(tClass, collectionName);
 
     // Date criteria
     if (this.isDate(criteria.getValue())) {

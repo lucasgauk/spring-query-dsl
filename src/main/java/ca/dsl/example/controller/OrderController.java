@@ -32,7 +32,7 @@ public class OrderController {
   @GetMapping("/query")
   @ResponseBody
   public List<Order> query(@RequestParam String search) {
-    BasicPredicateBuilder<Order> builder = new BasicPredicateBuilder<>(Order.class);
+    BasicPredicateBuilder<Order> builder = new BasicPredicateBuilder<>(Order.class, "order");
 
     builder.from(search);
     BooleanExpression exp = builder.build();
